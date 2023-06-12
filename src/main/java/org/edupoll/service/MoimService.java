@@ -24,31 +24,32 @@ public class MoimService {
 
 	@Value("${config.moim.pageSize}")
 	int pageSize;
-
+	
 	// 페이지 정보 만들어주는 서비스 메서드
 	public Pagination createPagination(int currentValue) {
 		// 페이지 분량은 어떻게 설정하고.. 특정페이지에 active 처리할려면..?
 		long cnt = moimRepository.count();
-		long last = cnt / pageSize + (cnt % pageSize > 0 ? 1 : 0);
+		long last = cnt / pageSize + (cnt%pageSize > 0 ? 1: 0);
 		List<PageItem> li = new ArrayList<>();
-
-		long endValue = (long) (Math.ceil(currentValue / 5.0) * 5);
-		long startValue = endValue - 4;
-
-		if (endValue > last) {
+		
+		long endValue = (long)(Math.ceil(currentValue/5.0) * 5);
+		long startValue = endValue-4;
+		
+		if(endValue > last) {
 			endValue = last;
 		}
-		for (long i = startValue; i <= endValue; i++) {
+		for(long i=startValue; i<=endValue; i++) {
 			li.add(new PageItem(i, i == currentValue));
 		}
-		PageItem prev = (startValue != 1) ? new PageItem(startValue - 1, true) : new PageItem(startValue, false);
-		PageItem next = (endValue < last) ? new PageItem(endValue + 1, true) : new PageItem(endValue, false);
-
+		PageItem prev = (startValue!=1) ? new PageItem(startValue-1, true) : new PageItem(startValue, false) ;
+		PageItem next = (endValue < last) ? new PageItem( endValue+1, true) : new PageItem(endValue, false); 
+		
 		Pagination pagination = new Pagination(prev, next, li);
-
+		
+		
 		return pagination;
 	}
-
+	
 	// 새 모임 등록용 서비스 메서드
 	public String createNewMoim(Moim moim, String logonId) {
 		User user = userRepository.findById(logonId).get(); // 로그온 상태라면 무조건 있는 데이터.

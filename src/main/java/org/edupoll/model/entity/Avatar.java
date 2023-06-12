@@ -11,7 +11,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "avatars")
 public class Avatar {
-
+	// 필드 설정
+	// 어노테이션 설정
 	@Id
 	String id;
 	String description;
@@ -56,5 +57,7 @@ public class Avatar {
 	public String toString() {
 		return "Avatar [id=" + id + ", description=" + description + ", url=" + url + "]";
 	}
+
+	// setter,getter, constructor, toString
 
 }

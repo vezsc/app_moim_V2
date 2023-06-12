@@ -14,22 +14,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReplyService {
-
 	@Autowired
 	ReplyRepository replyRepository;
-
 	@Autowired
 	MoimRepository moimRepository;
 
 	public void createNewReplay(AddReplyRequestData data) {
-
 		Reply reply = new Reply();
 		reply.setText(data.getText());
 		reply.setPassword(data.getPassword());
 		reply.setMoim(moimRepository.findById(data.getMoimId()).get());
-
 		replyRepository.save(reply);
-
+		
 		return;
 	}
 

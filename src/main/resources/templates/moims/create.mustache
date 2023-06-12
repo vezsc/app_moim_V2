@@ -4,14 +4,16 @@
 </div>
 <div class="py-1 text-info">이 정보들은 모임을 소개하고 참여자들에게 정보를 전달하는 데 도움이
 	됩니다.</div>
-<form class="py-2" method="post">
+<form class="py-2" action="/moims/create" method="post">
 	<div class="mb-2">
-		<label class="text mb-1">모임 제목</label> <input type="text" name="title"
+		<label class="text mb-1">모임 제목</label> 
+		<input type="text" name="title"
 			class="form-control">
 		<div class="form-text">모임을 잘 표현할 수 있는 제목을 입력해주세요.</div>
 	</div>
 	<div class="mb-2">
-		<label class="text mb-1">모임 성격</label> <select class="form-select" name="cate">
+		<label class="text mb-1">모임 성격</label>
+		 <select class="form-select" name="cate">
 			<option selected>성격을 선택해주세요</option>
 			<option>취미</option>
 			<option>학습</option>
@@ -25,12 +27,14 @@
 	</div>
 	<div class="mb-2">
 		<label class="text mb-1">모임 상세 설명</label>
-		<textarea class="form-control" rows="3" name="description"></textarea>
+		<textarea class="form-control" rows="3" 
+			name="description"></textarea>
 		<div class="form-text">모임의 목적, 주요 활동, 참가 대상, 일정 및 장소 등을 포함하여
 			상세하게 설명해주세요</div>
 	</div>
 	<div class="mb-2">
-		<label class="text mb-1">모임 최대 인원</label> <input type="number" name="maxPerson"
+		<label class="text mb-1">모임 최대 인원</label> 
+		<input type="number" name="maxPerson"
 			class="form-control">
 		<div class="form-text">
 			모임의 최대 참여 가능 인원을 입력해주세요. <span class="text-warning">(※필요하지 않다면
@@ -41,10 +45,12 @@
 		<label class="text mb-1">모임 날짜 및 소요시간</label>
 		<div class="row g-2">
 			<div class="col-md">
-				<input type="date" class="form-control" name="targetDate">
+				<input type="date" 
+				class="form-control" name="targetDate">
 			</div>
 			<div class="col-md">
-				<input type="number" class="form-control" name="duration">
+				<input type="number" class="form-control" 
+					name="duration">
 			</div>
 		</div>
 		<div class="form-text">참여자들이 모임의 날짜와 소요 시간을 알 수 있도록 작성해주세요.</div>

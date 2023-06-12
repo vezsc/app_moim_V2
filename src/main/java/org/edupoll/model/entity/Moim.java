@@ -21,11 +21,6 @@ public class Moim {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	String id;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "managerId")
-	User manager;
-
 	String title;
 	String cate;
 	String description;
@@ -34,22 +29,25 @@ public class Moim {
 	Date targetDate;
 	Integer duration;
 
-	@OneToMany(mappedBy = "moim", fetch = FetchType.LAZY)
-	List<Reply> replys;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "managerId")
+	User manager;
 
 	@OneToMany(mappedBy = "moim", fetch = FetchType.LAZY)
 	List<Attendance> attendances;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "attendances", joinColumns = @JoinColumn(name = "moimId"), inverseJoinColumns = @JoinColumn(name = "userId"))
-	List<User> attendUser;
-
-	public List<User> getAttendUser() {
-		return attendUser;
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(name="attendances",
+		joinColumns = @JoinColumn(name="moimId"), 
+		inverseJoinColumns = @JoinColumn(name="userId"))
+	List<User> attendUsers;
+	
+	public List<User> getAttendUsers() {
+		return attendUsers;
 	}
 
-	public void setAttendUser(List<User> attendUser) {
-		this.attendUser = attendUser;
+	public void setAttendUsers(List<User> attendUsers) {
+		this.attendUsers = attendUsers;
 	}
 
 	public List<Attendance> getAttendances() {
@@ -59,6 +57,10 @@ public class Moim {
 	public void setAttendances(List<Attendance> attendances) {
 		this.attendances = attendances;
 	}
+
+	// 어노테이션으로 관계 설정
+	@OneToMany(mappedBy = "moim", fetch = FetchType.LAZY)
+	List<Reply> replys;
 
 	public List<Reply> getReplys() {
 		return replys;
@@ -74,14 +76,6 @@ public class Moim {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public User getManager() {
-		return manager;
-	}
-
-	public void setManager(User manager) {
-		this.manager = manager;
 	}
 
 	public String getTitle() {
@@ -140,11 +134,12 @@ public class Moim {
 		this.duration = duration;
 	}
 
-	@Override
-	public String toString() {
-		return "Moim [id=" + id + ", manager=" + manager + ", title=" + title + ", cate=" + cate + ", description="
-				+ description + ", maxPerson=" + maxPerson + ", currentPerson=" + currentPerson + ", targetDate="
-				+ targetDate + ", duration=" + duration + "]";
+	public User getManager() {
+		return manager;
+	}
+
+	public void setManager(User manager) {
+		this.manager = manager;
 	}
 
 }

@@ -3,7 +3,6 @@ package org.edupoll.model.entity;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,20 +13,21 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "follows")
 public class Follow {
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	Integer id;
+	
 	Date created;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "ownerId")
 	User owner;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "targetId")
 	User target;
 
+	
 	public Integer getId() {
 		return id;
 	}
@@ -59,7 +59,4 @@ public class Follow {
 	public void setTarget(User target) {
 		this.target = target;
 	}
-
-	
-	
 }

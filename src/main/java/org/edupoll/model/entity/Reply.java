@@ -12,11 +12,11 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "replys")
 public class Reply {
-
+	// 필드 설정 // 어노테이션 설정
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	Integer id;
-	
+
 	String text;
 	String password;
 
@@ -24,6 +24,7 @@ public class Reply {
 	@JoinColumn(name = "moimId")
 	Moim moim;
 
+	// 기타 setter, getter
 	public Integer getId() {
 		return id;
 	}
@@ -54,11 +55,6 @@ public class Reply {
 
 	public void setMoim(Moim moim) {
 		this.moim = moim;
-	}
-
-	@Override
-	public String toString() {
-		return "Reply [id=" + id + ", text=" + text + ", password=" + password + ", moim=" + moim + "]";
 	}
 
 }

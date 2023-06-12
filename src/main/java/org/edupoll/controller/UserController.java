@@ -1,6 +1,5 @@
 package org.edupoll.controller;
 
-import org.edupoll.model.dto.request.LoginRequestData;
 import org.edupoll.model.entity.User;
 import org.edupoll.service.UserService;
 import org.slf4j.Logger;
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
@@ -30,7 +27,7 @@ public class UserController {
 		boolean rst = userService.createNewUser(user);
 		logger.debug("userJoinHandle's result : {} ", rst);
 		if (rst) {
-			return "redirect:/user/login?loginId=" + user.getId();
+			return "redirect:/user/login?loginId="+user.getId();
 		} else {
 			model.addAttribute("error", true);
 			return "user/join";
@@ -41,7 +38,7 @@ public class UserController {
 	public String showUserLoginForm(Model model) {
 		return "user/login";
 	}
-
+/*
 	@PostMapping("/user/login")
 	public String userLoginHandle(LoginRequestData data, HttpSession session, Model model) {
 		boolean result = userService.isValidUser(data);
@@ -54,21 +51,10 @@ public class UserController {
 		return "user/login";
 	}
 
-	@GetMapping("/user/private")
-	public String userPrivateHandle(HttpSession session, Model model) {
-		String logonId = (String) session.getAttribute("logonId");
-		logger.debug("userPrivateHandle loginId : {} ", logonId);
-		String logonIdd = (String) model.getAttribute("logonId");
-		logger.debug("userPrivateHandle loginIdd : {} ", logonIdd);
-
-		return null;
-	}
-
 	@GetMapping("/user/logout")
 	public String userLogoutHandle(HttpSession session) {
 		session.invalidate();
-
 		return "redirect:/";
 	}
-
+*/
 }

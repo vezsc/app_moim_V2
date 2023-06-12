@@ -95,6 +95,4 @@ public class AttendanceService {
 	public boolean isExistsAttendance(String userId, String moimId) {
 		return attendanceRepository.existsByUserIdIsAndMoimIdIs(userId, moimId);
 	}
-
-
 }

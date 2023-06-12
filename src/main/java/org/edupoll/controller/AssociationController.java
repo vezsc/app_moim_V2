@@ -19,48 +19,59 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AssociationController {
 
 	@Autowired
+	AttendanceRepository attendanceRepository;
+	
+	@Autowired
 	UserRepository userRepository;
 
 	@Autowired
 	AvatarRepository avatarRepository;
 
-	@Autowired
-	AttendanceRepository attendanceRepository;
-
-	@Autowired
+	@Autowired 
 	MoimRepository moimRepository;
-
+	
 	@GetMapping("/assoc/04")
-	public String assoc04Handle() {
-
-		Moim moim = moimRepository.findById("3dd16a2d-8f74-4979-99fd-d2e6a4157cc6").get();
-		for (Attendance a : moim.getAttendances()) {
+	public String assoc04Hanlde() {
+		
+		Moim moim =moimRepository.findById("").get();
+		for(Attendance a : moim.getAttendances()) {
 			System.out.println(a.getUser().getId());
 		}
-		List<User> users = moim.getAttendUser();
-		for (User one : users) {
+		
+		List<User> users =moim.getAttendUsers();
+		for(User one : users) {
 			System.out.println(one.getId());
 		}
+		
 		return "index";
 	}
 
+	
+	
 	@GetMapping("/assoc/03")
-	public String assoc03Handle() {
-		User found = userRepository.findById("hotel300").get();
+	public String assoc03Hanlde() {
+		
+		User found = userRepository.findById("zoro77").get();
+		System.out.println(found.getId());
 		List<Moim> attends = found.getAttendMoims();
-		for (Moim m : attends) {
-			System.out.println(m.getId() + " / " + m.getTitle());
+		for(Moim m : attends) {
+			System.out.println(m.getId() +" / "+ m.getTitle());
 		}
+		
 		return "index";
 	}
 
+	
+	
 	@GetMapping("/assoc/02")
-	public String assoc02Handle(String avatarId) {
+	public String assoc02Hanlde(String avatarId) {
+		
+		
 		if (avatarRepository.findById(avatarId).isPresent()) {
 			Avatar a = avatarRepository.findById(avatarId).get();
 			List<UserDetail> details = a.getDetails();
 			for (UserDetail d : details) {
-				System.out.println("→" + d.getUser().getId());
+				System.out.println("→ " + d.getUser().getId());
 
 			}
 		} else {
@@ -71,11 +82,13 @@ public class AssociationController {
 
 	@GetMapping("/assoc/01")
 	public String assoc01Handle(String userId) {
+
 		User found = userRepository.findById(userId).orElse(null);
 		System.out.println(found);
 
-		UserDetail detail = found.getUserDetail();
-		System.out.println(detail);
+//		UserDetail detail =found.getUserDetail();
+//		System.out.println(detail);
+//		
 		return "index";
 	}
 

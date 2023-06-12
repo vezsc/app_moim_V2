@@ -32,14 +32,21 @@ public class SearchService {
 		return list.stream().map(t -> new UserResponseData(t)).toList();
 	}
 
+	
 	public Object getUsersMatchedQueryBySpecificUser(String query, String logonId) {
 		List<User> list = userRepository.findByIdContainingOrNickContainingAllIgnoreCase(query, query);
 		
 		List<UserResponseData> responseList = list.stream().map(t-> new UserResponseData(t)).toList();
 		
+		for(UserResponseData urd : responseList) {
+			if(followRepository.existsByOwnerIdIsAndTargetIdIs(logonId, urd.getId())) {
+				urd.setFollowed(true);
+			}
+		}
+		/*
 		List<Follow> follows = followRepository.findByOwnerId(logonId);
-		List<String> followedUserId = follows.stream().map(t -> t.getTarget().getId()).toList();
-		
+		List<String> followedUserId = 
+				follows.stream().map(t -> t.getTarget().getId()).toList();
 		for(UserResponseData urd : responseList) {
 			if(followedUserId.contains(urd.getId())) {
 				urd.setFollowed(true);
@@ -47,9 +54,7 @@ public class SearchService {
 				urd.setFollowed(false);
 			}
 		}
-		
-		
-		
+		*/
 		return responseList;
 	}
 }

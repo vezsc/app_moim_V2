@@ -23,8 +23,8 @@ public class UserDetail {
 	Date birthday;
 	String description;
 
-	@ManyToOne
-	@JoinColumn(name = "avatarId") // user_detail 의 avatar_id 값을 이용해서
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "avatarId") // 이 user_detail 의 avatar_id 값을 이용해서
 	Avatar avatar;
 
 	@OneToOne(mappedBy = "userDetail", fetch = FetchType.LAZY)
@@ -80,8 +80,8 @@ public class UserDetail {
 
 	@Override
 	public String toString() {
-		return "UserDetail [idx=" + idx + ", address=" + address + ", birthday=" + birthday + ", avatar=" + avatar
-				+ ", description=" + description + "]";
+		return "UserDetail [idx=" + idx + ", address=" + address + ", birthday=" + birthday + ", description="
+				+ description + "]";
 	}
 
 }

@@ -8,8 +8,11 @@ import org.edupoll.model.entity.UserDetail;
 import org.edupoll.repository.UserDetailRepository;
 import org.edupoll.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {
@@ -25,38 +28,42 @@ public class UserService {
 		if (!userRepository.findById(userId).isPresent()) {
 			return false;
 		}
-
+		
 		User found = userRepository.findById(userId).get();
+		UserDetail userDetail = found.getUserDetail();
 		// 멀 먼저 지워? UserDetail ?? User ??
+
 		userRepository.delete(found);
-		userDetailRepository.delete(found.getUserDetail());
+		userDetailRepository.delete(userDetail);
 		return true;
 	}
 
 	// 회원상세정보를 수정/변경 처리할 서비스 메서드
 	public boolean modifySpecificUserDetail(String userId, UserDetail detail) {
-		// 1.특정 유저가 존재하는지 확인
+		// 1. 특정 유저가 존재하는지 확인
 		if (userRepository.findById(userId).isEmpty())
 			return false;
-
-		// 2.UserDeatil 저장하고
+		// 2. UserDetail 저장하고
 		User foundUser = userRepository.findById(userId).get();
 		if (foundUser.getUserDetail() != null)
 			detail.setIdx(foundUser.getUserDetail().getIdx());
 
 		UserDetail saved = userDetailRepository.save(detail);
-		// 3.특정 유저의 detail_idx 에 방금 지정하며 부여받은 id 값을 설정해서 update
+		// 3. 특정 유저의 detail_idx 에 방금 저장하며 부여받은 id 값을 설정해서 update
 		foundUser.setUserDetail(saved);
 		userRepository.save(foundUser);
-
 		return true;
 	}
 
-	// 회원가입을 처리할 서비스 메서드
+	// 회원 가입을 처리할 서비스 메서드
 	public boolean createNewUser(User user) {
+		PasswordEncoder encoder=new BCryptPasswordEncoder();
 		if (userRepository.findById(user.getId()).isEmpty()) {
 			// user.setJoinDate(new Date());
-
+			String encodedPass="{bcrypt}"+encoder.encode(user.getPass());
+			user.setPass(encodedPass);
+			user.setAuthority("ROLE_NORMAL");
+			
 			userRepository.save(user);
 			return true;
 		}
@@ -68,17 +75,32 @@ public class UserService {
 		Optional<User> optional = userRepository.findById(data.getLoginId());
 		if (optional.isPresent()) {
 			String savedPass = optional.get().getPass();
+			// System.out.println(optional.get().getUserDetail());
+			
 			return savedPass.equals(data.getLoginPass());
 		}
 		return false;
 	}
 
 	public UserDetail findSpecificSavedDetail(String logonId) {
-
+		
 		return userRepository.findById(logonId).get().getUserDetail();
+		/*
+		UserDetail userDetail = userRepository.findById(logonId).get().getUserDetail();
+		if(userDetail == null) {
+			return null;
+		}
+		return userDetailRepository.findById(userDetail.getIdx()).orElse(null);
+		*/
 	}
-
+	
 	public User findSpecificUserById(String targetId) {
-		return userRepository.findById(targetId).orElse(null);
+		return  userRepository.findById(targetId).orElse(null);
 	}
 }
+
+
+
+
+
+

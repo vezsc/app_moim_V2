@@ -22,7 +22,7 @@ public class Attendance {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "moimId")
-	Moim moim;
+	Moim moim; 
 
 	public Integer getId() {
 		return id;

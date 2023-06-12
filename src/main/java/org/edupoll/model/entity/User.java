@@ -24,9 +24,11 @@ public class User {
 	String nick;
 	Date joinDate;
 
+	String authority;	// + 추가 (Spring Security)
+	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userDetailIdx") // User Entity의 필드
-	UserDetail userDetail; // 이컬럼을 찾는 객체는 UserDetail(id를 기준으로 찾음)
+	@JoinColumn(name = "userDetailIdx") // User Entity 의 필드
+	UserDetail userDetail; // 이 컬럼을 찾는 객체는 UserDetail (id를 기준으로 찾음)
 
 	@OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
 	List<Moim> moims;
@@ -35,12 +37,14 @@ public class User {
 	@JoinTable(name = "attendances", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "moimId"))
 	List<Moim> attendMoims;
 
+	
 	@OneToMany(mappedBy = "owner")
 	List<Follow> followTo;
-
+	
 	@OneToMany(mappedBy = "target")
 	List<Follow> followFrom;
-
+	
+	
 	public List<Follow> getFollowTo() {
 		return followTo;
 	}
@@ -73,6 +77,7 @@ public class User {
 		this.moims = moims;
 	}
 
+	// setter / getter 만 추가
 	public String getId() {
 		return id;
 	}
@@ -125,5 +130,19 @@ public class User {
 		return "User [id=" + id + ", pass=" + pass + ", nick=" + nick + ", joinDate=" + joinDate + ", userDetail="
 				+ userDetail + "]";
 	}
+	// toString
 
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
 }
+
+/*
+ * 
+ * id varchar2(90) primary key, pass varchar2(90) not null, nick varchar2(90)
+ * not null, join_date date default sysdate, user_detail_id varchar2(900)
+ */

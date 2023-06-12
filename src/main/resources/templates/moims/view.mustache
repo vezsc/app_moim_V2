@@ -24,13 +24,16 @@
 		<p class="text-end text-black-80 fs-smaller">모임 예정일 : {{targetDate
 			}} ({{duration}}h)</p>
 	</div>
-	{{#isJoined }}
-	<button id="join-bt" class="btn btn-danger btn-sm" data-status="joined" data-target="{{moim.id}}">참가취소하기</button>
-	{{/isJoined }}
-	{{^isJoined }}
-	<button id="join-bt" class="btn btn-primary btn-sm" 
-		data-status="not-joined" data-target="{{moim.id}}">참가신청하기</button>
-	{{/isJoined }}
+	<!-- 참가신청 버튼 영역 -->
+	{{#isLogon }}
+		{{#isJoined }}
+		<button id="join-bt" class="btn btn-danger btn-sm" data-status="joined" data-target="{{moim.id}}">참가취소하기</button>
+		{{/isJoined }}
+		{{^isJoined }}
+		<button id="join-bt" class="btn btn-primary btn-sm" 
+			data-status="not-joined" data-target="{{moim.id}}">참가신청하기</button>
+		{{/isJoined }}
+	{{/isLogon }}
 </div>
 {{/moim }}
 <!-- 참가자 목록 뷰 -->
@@ -165,3 +168,16 @@
 </script>
 
 {{ > /common/footer }}
+
+
+
+
+
+
+
+
+
+
+
+
+
