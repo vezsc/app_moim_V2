@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 public class Reply {
 	// 필드 설정 // 어노테이션 설정
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	Integer id;
 
 	String text;
